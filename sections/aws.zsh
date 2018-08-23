@@ -26,12 +26,14 @@ spaceship_aws() {
   spaceship::exists aws || return
 
   # Is the current profile not the default profile
-  [[ -z $AWS_DEFAULT_PROFILE ]] || [[ "$AWS_DEFAULT_PROFILE" == "default" ]] && return
+  # [[ -z $AWS_PROFILE ]] || [[ "$AWS_PROFILE" == "default" ]] && return
+  current_aws_creds=$(swiss-army-knife aws get creds)
+  [[ "$current_aws_creds" == "🤲" ]] && return
 
   # Show prompt section
   spaceship::section \
     "$SPACESHIP_AWS_COLOR" \
     "$SPACESHIP_AWS_PREFIX" \
-    "${SPACESHIP_AWS_SYMBOL}$AWS_DEFAULT_PROFILE" \
+    "${SPACESHIP_AWS_SYMBOL} ${current_aws_creds}" \
     "$SPACESHIP_AWS_SUFFIX"
 }
